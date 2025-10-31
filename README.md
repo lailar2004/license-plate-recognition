@@ -1,66 +1,83 @@
 License Plate Recognition System (India)
 
-This project performs license plate detection, color classification, and text recognition for Indian vehicles using a pre-trained YOLOv8 model, OpenCV, and EasyOCR.
-It is designed as a modular pipeline for computer vision–based vehicle identification.
+> A complete image-processing pipeline for Indian license plate recognition using **YOLOv8**, **OpenCV**, and **EasyOCR**.
 
-📋 Features
+---
 
-Image Preprocessing – Enhances input images (grayscale conversion, histogram equalization, noise reduction, sharpening).
+## 🧠 Overview
+This project detects, classifies, and reads vehicle license plates using a **pre-trained YOLOv8 model**.  
+It performs:
+- 🔧 **Preprocessing:** Image enhancement (contrast, noise reduction, sharpening)  
+- 🎯 **Detection:** License plate localization using YOLOv8  
+- 🎨 **Color Classification:** Identifies plate color (White, Yellow, Green, etc.)  
+- 🔤 **OCR:** Extracts text using EasyOCR  
+- 💾 **Result Logging:** Saves outputs to a CSV file  
 
-License Plate Detection – Uses a pre-trained YOLOv8 model to detect and crop license plates.
+---
 
-Color Classification – Classifies plate color (White, Yellow, Green, Red, Blue, or Black) using HSV color analysis.
+## 📁 Project Structure
 
-Text Recognition (OCR) – Reads license plate numbers using EasyOCR.
+license_plate_recog_detec/
+│
+├── data/
+│ ├── raw/ # Original images
+│ ├── enhanced/ # Preprocessed grayscale images
+│ ├── segmented/ # Cropped license plates
+│ ├── color_classified/ # Plates analyzed for color
+│ └── results/ # Final results (CSV + logs)
+│
+├── models/
+│ └── license_plate_detector.pt # Pre-trained YOLOv8 model
+│
+└── src/
+├── preprocess.py
+├── segment.py
+├── detect_plate_color.py
+├── recognize_text.py
+└── main.py
 
-Result Logging – Saves recognized text and plate color to a CSV file for further use.
+yaml
+Copy code
 
-🧩 Folder Structure
-data/
- ├── raw/              # Input images
- ├── enhanced/         # Preprocessed images
- ├── segmented/        # Cropped license plates
- ├── color_classified/ # Plates analyzed for color
- └── results/          # Final output (CSV + logs)
-src/
- ├── preprocess.py
- ├── segment.py
- ├── detect_plate_color.py
- ├── recognize_text.py
- └── main.py
-models/
- └── license_plate_detector.pt   # Pretrained YOLOv8 model
+---
 
-⚙️ Setup
+## ⚙️ Installation
 
-Install dependencies:
+```bash
+# Clone this repository
+git clone https://github.com/<your-username>/license-plate-recognition.git
+cd license-plate-recognition
 
+# Install dependencies
 pip install ultralytics opencv-python easyocr numpy pandas matplotlib
+🚀 Run the Pipeline
+Run all steps automatically:
 
-▶️ How to Run
-
-Run the entire pipeline:
-
+bash
+Copy code
 python src/main.py
+This will:
 
+Preprocess raw images
 
-Each step (preprocess → detect → classify → OCR → save results) runs automatically.
+Detect and crop license plates
 
-🧠 Model Details
+Classify plate color
 
-Model used: Pre-trained YOLOv8 license plate detector
+Recognize text using OCR
 
-Source: Public model from Roboflow Universe
+Save all results to data/results/results.csv
 
-No custom training performed
+🧩 Example Output
+File	Detected Text	Plate Type
+car1.jpg	KA01AB1234	White - Private
+taxi2.jpg	MH12CD5678	Yellow - Commercial
 
-📊 Output Format
+📂 Output file: data/results/results.csv
 
-All results are saved in:
+📦 Model Details
+Model: YOLOv8 (pre-trained)
 
-data/results/results.csv
+Source: Roboflow Universe – License Plate Detection
 
-
-Each row includes:
-
-filename, recognized_text, plate_type
+Training: None (used as-is)
