@@ -47,15 +47,20 @@ Copy code
 # Clone this repository
 git clone https://github.com/<your-username>/license-plate-recognition.git
 cd license-plate-recognition
-
+```
 # Install dependencies
+```bash
 pip install ultralytics opencv-python easyocr numpy pandas matplotlib
+```
+
 🚀 Run the Pipeline
+
 Run all steps automatically:
 
-bash
-Copy code
+```bash
 python src/main.py
+```
+
 This will:
 
 Preprocess raw images
