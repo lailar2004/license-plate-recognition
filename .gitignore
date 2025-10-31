@@ -8,12 +8,6 @@ __pycache__/
 venv/
 env/
 
-# Data folders
-data/raw/
-data/enhanced/
-data/segmented/
-data/color_classified/
-data/results/
 
 # Model weights and cache
 *.pt
