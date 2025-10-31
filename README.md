@@ -43,7 +43,7 @@ license_plate_recog_detec/
 
 ```bash
 # Clone this repository
-git clone https://github.com/<your-username>/license-plate-recognition.git
+git clone https://github.com/lailar2004/license-plate-recognition.git
 cd license-plate-recognition
 ```
 # Install dependencies
