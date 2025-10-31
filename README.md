@@ -4,7 +4,7 @@ License Plate Recognition System (India)
 
 ---
 
-## 🧠 Overview
+## Overview
 This project detects, classifies, and reads vehicle license plates using a **pre-trained YOLOv8 model**.  
 It performs:
 - 🔧 **Preprocessing:** Image enhancement (contrast, noise reduction, sharpening)  
@@ -15,7 +15,7 @@ It performs:
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 license_plate_recog_detec/
 │
@@ -41,7 +41,7 @@ Copy code
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 ```bash
 # Clone this repository
@@ -53,7 +53,7 @@ cd license-plate-recognition
 pip install ultralytics opencv-python easyocr numpy pandas matplotlib
 ```
 
-🚀 Run the Pipeline
+Run the Pipeline
 
 Run all steps automatically:
 
@@ -73,14 +73,16 @@ Recognize text using OCR
 
 Save all results to data/results/results.csv
 
-🧩 Example Output
+Example Output
+```bash
 File	Detected Text	Plate Type
 car1.jpg	KA01AB1234	White - Private
 taxi2.jpg	MH12CD5678	Yellow - Commercial
+```
+Output file: data/results/results.csv
 
-📂 Output file: data/results/results.csv
+Model Details
 
-📦 Model Details
 Model: YOLOv8 (pre-trained)
 
 Source: Roboflow Universe – License Plate Detection
