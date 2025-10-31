@@ -1,0 +1,10 @@
+opencv-python
+numpy
+pillow
+matplotlib
+pytesseract
+scikit-image
+imutils
+pandas
+tqdm
+loguru

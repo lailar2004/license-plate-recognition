@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+venv/
+env/
+
+# Data folders
+data/raw/
+data/enhanced/
+data/segmented/
+data/color_classified/
+data/results/
+
+# Model weights and cache
+*.pt
+*.onnx
+runs/
+yolov5/
+yolov8/
+*.weights
+
+# VSCode
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
