@@ -16,7 +16,7 @@ It performs:
 ---
 
 ## Project Structure
-
+```bash
 license_plate_recog_detec/
 │
 ├── data/
@@ -36,10 +36,8 @@ license_plate_recog_detec/
 ├── recognize_text.py
 └── main.py
 
-yaml
-Copy code
 
----
+```
 
 ## Installation
 
