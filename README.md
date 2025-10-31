@@ -7,11 +7,11 @@ License Plate Recognition System (India)
 ## Overview
 This project detects, classifies, and reads vehicle license plates using a **pre-trained YOLOv8 model**.  
 It performs:
-- 🔧 **Preprocessing:** Image enhancement (contrast, noise reduction, sharpening)  
-- 🎯 **Detection:** License plate localization using YOLOv8  
-- 🎨 **Color Classification:** Identifies plate color (White, Yellow, Green, etc.)  
-- 🔤 **OCR:** Extracts text using EasyOCR  
-- 💾 **Result Logging:** Saves outputs to a CSV file  
+- **Preprocessing:** Image enhancement (contrast, noise reduction, sharpening)  
+- **Detection:** License plate localization using YOLOv8  
+- **Color Classification:** Identifies plate color (White, Yellow, Green, etc.)  
+- **OCR:** Extracts text using EasyOCR  
+- **Result Logging:** Saves outputs to a CSV file  
 
 ---
 
