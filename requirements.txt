@@ -8,3 +8,4 @@ imutils
 pandas
 tqdm
 loguru
+streamlit

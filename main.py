@@ -1,78 +1,71 @@
 import os
+import sys
 import subprocess
-import pandas as pd
 
-# --- Helper to run scripts and capture their output ---
-def run_script(script_name):
-    print(f"\n🚀 Running {script_name} ...\n")
-    result = subprocess.run(
-        ["python", f"src/{script_name}"],
-        capture_output=True,
-        text=True,
-        encoding='utf-8',  # prevent Unicode errors
-        errors='replace'
-    )
+# --- Define directory paths ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SRC_DIR = os.path.join(BASE_DIR, "src")
+DATA_DIR = os.path.join(BASE_DIR, "data")
+RAW_DIR = os.path.join(DATA_DIR, "raw")
+RESULTS_DIR = os.path.join(DATA_DIR, "results")
 
-    if result.stdout:
-        print(result.stdout)
-    if result.stderr:
-        print("⚠️ Errors/Warnings:")
-        print(result.stderr)
-    print(f"\n✅ Completed {script_name}")
-    print("-" * 60)
-    return result.stdout
+# --- Debug: Print current paths ---
+print(f"Base Directory: {BASE_DIR}")
+print(f"RAW Directory: {RAW_DIR}")
+print(f"Current Working Directory: {os.getcwd()}\n")
 
+# --- Check command-line argument ---
+if len(sys.argv) < 2:
+    print("Usage: python main.py <image_name>")
+    print("\nAvailable files in data/raw:")
+    if os.path.exists(RAW_DIR):
+        files = os.listdir(RAW_DIR)
+        if files:
+            for f in files:
+                print(f"   - {f}")
+        else:
+            print("   (No files found)")
+    else:
+        print(f"    Directory does not exist: {RAW_DIR}")
+    sys.exit(1)
 
-# --- Pipeline Execution ---
-if __name__ == "__main__":
-    print("\n==============================")
-    print("📸 LICENSE PLATE RECOGNITION PIPELINE")
-    print("==============================\n")
+filename = sys.argv[1]
+raw_path = os.path.join(RAW_DIR, filename)
 
-    # 1️⃣ Preprocess and Segment
-    run_script("preprocess.py")
-    run_script("segment.py")
+print(f"Looking for file: {raw_path}")
 
-    # 2️⃣ Get color classifications and OCR outputs
-    color_output = run_script("detect_plate_color.py")
-    text_output = run_script("recognize_text.py")
+if not os.path.exists(raw_path):
+    print(f"Error: {filename} not found in {RAW_DIR}")
+    print("\nAvailable files in data/raw:")
+    if os.path.exists(RAW_DIR):
+        files = os.listdir(RAW_DIR)
+        for f in files:
+            print(f"   - {f}")
+    sys.exit(1)
 
-    # --- Parse outputs ---
-    color_results = {}
-    for line in color_output.splitlines():
-        if "→" in line or "->" in line:
-            parts = line.split("→") if "→" in line else line.split("->")
-            if len(parts) == 2:
-                filename = parts[0].strip()
-                color = parts[1].strip()
-                color_results[filename] = color
+print(f"\nStarting License Plate Recognition Pipeline for: {filename}\n")
 
-    text_results = {}
-    for line in text_output.splitlines():
-        if "→" in line or "->" in line:
-            parts = line.split("→") if "→" in line else line.split("->")
-            if len(parts) == 2:
-                filename = parts[0].strip()
-                text = parts[1].strip()
-                text_results[filename] = text
+# --- Helper function to run each stage ---
+def run_stage(stage_name, script_filename):
+    script_path = os.path.join(SRC_DIR, script_filename)
+    print(f"Step: {stage_name}")
+    try:
+        subprocess.run(
+            [sys.executable, script_path, filename],
+            check=True,
+            cwd=BASE_DIR
+        )
+        print(f"{stage_name} completed successfully.\n")
+    except subprocess.CalledProcessError as e:
+        print(f"Error during {stage_name}. Exiting...\n")
+        print(e)
+        sys.exit(1)
 
-    # --- Combine results ---
-    combined = []
-    for filename in set(list(color_results.keys()) + list(text_results.keys())):
-        combined.append({
-            "filename": filename,
-            "detected_text": text_results.get(filename, "N/A"),
-            "plate_color": color_results.get(filename, "N/A")
-        })
+# --- Run all stages in sequence ---
+run_stage("Preprocessing Image", "preprocess.py")
+run_stage("Detecting Plate with YOLO", "segment.py")
+run_stage("Detecting Plate Color", "detect_plate_color.py")
+run_stage("Recognizing Text via OCR", "recognize_text.py")
 
-    # --- Save to CSV ---
-    results_dir = "data/results"
-    os.makedirs(results_dir, exist_ok=True)
-    csv_path = os.path.join(results_dir, "results.csv")
-
-    df = pd.DataFrame(combined)
-    df.to_csv(csv_path, index=False)
-
-    print(f"\n✅ All results saved to: {csv_path}")
-    print(df)
-    print("\n🎉 All steps completed successfully!")
+print("All pipeline stages completed successfully!")
+print(f"Final results available in: {RESULTS_DIR}")

@@ -86,3 +86,4 @@ Model: YOLOv8 (pre-trained)
 Source: Roboflow Universe – License Plate Detection
 
 Training: None (used as-is)
+
