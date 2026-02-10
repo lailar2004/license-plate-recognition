@@ -35,18 +35,24 @@ med_hue = np.median(h)
 med_sat = np.median(s)
 med_val = np.median(v)
 
-# --- Classification Logic ---
-if 15 < med_hue < 35 and med_sat > 80 and med_val > 100:
-    plate_type = "Yellow - Commercial"
-elif med_sat < 40 and med_val > 150:
+# --- Improved Classification Logic ---
+# White plates: Low saturation, high value
+if med_sat < 60 and med_val > 120:
     plate_type = "White - Private"
-elif 40 < med_hue < 100 and med_sat > 60:
+# Yellow plates: Hue in yellow range, moderate-high saturation
+elif 15 < med_hue < 35 and med_sat > 60 and med_val > 100:
+    plate_type = "Yellow - Commercial"
+# Green plates: Hue in green range
+elif 35 < med_hue < 85 and med_sat > 40:
     plate_type = "Green - Electric Vehicle"
-elif 100 < med_hue < 130 and med_sat > 80:
+# Blue plates: Hue in blue range
+elif 90 < med_hue < 130 and med_sat > 50:
     plate_type = "Blue - Diplomatic"
-elif (med_hue < 10 or med_hue > 160) and med_sat > 80:
+# Red plates: Hue in red range (wraps around at 0/180)
+elif (med_hue < 10 or med_hue > 160) and med_sat > 60:
     plate_type = "Red - Government"
-elif med_val < 80:
+# Black plates: Very low value
+elif med_val < 70:
     plate_type = "Black - Commercial/Rental"
 else:
     plate_type = "Uncertain / Other"
